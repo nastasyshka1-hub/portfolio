@@ -22,4 +22,6 @@ HTML, CSS и JavaScript без фреймворков. Локальные изо
 
 Частная версия в Sites: https://anastasia-kobzareva-design.vernallodge.chatgpt.site
 
-Публикация изменений в GitHub сама по себе не обновляет эту версию в Sites. GitHub Pages в этом репозитории отдельно не настраивался.
+GitHub Pages: https://nastasyshka1-hub.github.io/portfolio/
+
+GitHub Pages публикует сайт из корня ветки `main`. Файл `.nojekyll` отключает обработку Jekyll для этого статического сайта. Изменения после push в `main` публикуются автоматически. Версия в Sites обновляется отдельно.
