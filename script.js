@@ -1,0 +1,5 @@
+// Keep short Russian prepositions with the word they introduce.
+const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode:n=>['SCRIPT','STYLE'].includes(n.parentElement.tagName)?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT});
+while(walker.nextNode()){walker.currentNode.nodeValue=walker.currentNode.nodeValue.replace(/(^|[\s(])([вксуо]|на|по|из|от|до|за|об|со|во|ко|не|и)\s+(?=\S)/giu,'$1$2\u00a0')}
+const dialog=document.querySelector('.image-dialog');
+if(dialog){let opener;document.querySelectorAll('[data-image]').forEach(button=>button.addEventListener('click',()=>{opener=button;const img=dialog.querySelector('img');img.src=button.dataset.image;img.alt=button.dataset.caption;dialog.querySelector('p').textContent=button.dataset.caption;dialog.showModal()}));dialog.addEventListener('close',()=>opener?.focus());dialog.addEventListener('click',event=>{if(event.target===dialog){const bounds=dialog.getBoundingClientRect();if(event.clientX<bounds.left||event.clientX>bounds.right||event.clientY<bounds.top||event.clientY>bounds.bottom)dialog.close()}})}
