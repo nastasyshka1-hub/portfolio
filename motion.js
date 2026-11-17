@@ -25,10 +25,10 @@
     intro.querySelector('.motion-top').insertBefore(pauseButton, skip);
   }
   const phrases = [
-    ['Привет.'],
-    ['Я', 'Анастасия.'],
-    ['UX/UI-дизайнер.'],
-    ['В\u00a0дизайне', 'с\u00a02021', 'года.']
+    ['Привет'],
+    ['Я', 'Анастасия'],
+    ['UX/UI-дизайнер'],
+    ['В\u00a0дизайне', 'с', '2021\u00a0года']
   ];
   const reviewBar = document.querySelector('.motion-reviewbar');
   if (isReview && reviewBar) {
@@ -108,7 +108,7 @@
       const scene = document.createElement('div');
       scene.className = 'motion-scene';
       scene.dataset.scene = String(sceneIndex);
-      const displayWords = variant === 'b' && sceneIndex === 2 ? ['UX/UI-', 'дизайнер.'] : words;
+      const displayWords = variant === 'b' && sceneIndex === 2 ? ['UX/UI-', 'дизайнер'] : words;
       displayWords.forEach((word, wordIndex) => {
         const mask = document.createElement('span');
         mask.className = 'motion-mask';
@@ -217,35 +217,34 @@
   };
   const wordButtons = [...document.querySelectorAll('.hero-word')];
   const preview = document.querySelector('.word-preview');
+  if (preview) document.body.append(preview);
   const examples = {
     clear: { label: 'Понятные', image: 'assets/university-analytics-dynamics.png', href: 'university.html', caption: 'UI-дизайн аналитических экранов в составе команды.' },
     usable: { label: 'Удобные', image: 'assets/photoschool-programs.png', href: 'photoschool.html', caption: 'Выбор программы и путь к записи на пробный урок.' },
     expressive: { label: 'Выразительные', image: 'assets/marketing-hero.png', href: 'marketing.html', caption: 'Визуальная подача сайта Вебпрактик.Маркетинг.' }
   };
-  let pinned = false;
   let lastTrigger = null;
-  let previewTimer = 0;
-  let suppressFocusUntil = 0;
+  let closeTimer;
+  let openedExplicitly = false;
+
   function closeProjectPreview(returnFocus = false) {
-    clearTimeout(previewTimer);
-    if (!preview) return;
+    clearTimeout(closeTimer);
+    if (!preview || preview.hidden) return;
     preview.hidden = true;
     preview.classList.remove('is-entering');
-    wordButtons.forEach(button => button.setAttribute('aria-expanded', 'false'));
-    pinned = false;
-    if (returnFocus && lastTrigger) { suppressFocusUntil = performance.now() + 250; lastTrigger.focus({ preventScroll: true }); }
+    lastTrigger?.setAttribute('aria-expanded', 'false');
+    if (returnFocus) lastTrigger?.focus({ preventScroll: true });
   }
-  const showProjectPreview = (button, pin = false, instant = false) => {
+
+  function showProjectPreview(button, interactive = false) {
     if (!preview || playing) return;
-    clearTimeout(previewTimer);
     const key = button.dataset.project;
     const example = examples[key];
     if (!example) return;
-    if (pinned && !pin && lastTrigger !== button) return;
-    if (pin && pinned && lastTrigger === button) { closeProjectPreview(); return; }
     const wasOpen = !preview.hidden;
-    pinned = pin;
     lastTrigger = button;
+    clearTimeout(closeTimer);
+    openedExplicitly = interactive;
     preview.dataset.project = key;
     preview.querySelector('.word-preview-label').textContent = example.label;
     const image = preview.querySelector('img');
@@ -255,33 +254,42 @@
     preview.querySelector('.word-preview-link').href = example.href;
     wordButtons.forEach(word => word.setAttribute('aria-expanded', String(word === button)));
     preview.hidden = false;
-    if (!wasOpen && !instant && !motionPreference.matches) {
+    if (!wasOpen && !motionPreference.matches) {
       preview.classList.add('is-entering');
       requestAnimationFrame(() => requestAnimationFrame(() => preview.classList.remove('is-entering')));
     } else preview.classList.remove('is-entering');
-    if (pin && (matchMedia('(max-width: 700px)').matches || !finePointer.matches)) {
-      requestAnimationFrame(() => preview.scrollIntoView({ block: 'nearest', behavior: instant || motionPreference.matches ? 'instant' : 'smooth' }));
-    }
-  };
+    if (interactive) preview.querySelector('.word-preview-link').focus({ preventScroll: true });
+  }
+
   wordButtons.forEach(button => {
-    button.addEventListener('click', event => showProjectPreview(button, true, event.detail === 0));
-    button.addEventListener('focus', () => { if (performance.now() > suppressFocusUntil) showProjectPreview(button, false, true); });
-    button.addEventListener('pointerenter', () => {
-      if (!finePointer.matches) return;
-      clearTimeout(previewTimer);
-      previewTimer = setTimeout(() => showProjectPreview(button), preview?.hidden ? 100 : 0);
+    button.addEventListener('pointermove', event => {
+      if (!finePointer.matches || event.pointerType !== 'mouse') return;
+      clearTimeout(closeTimer);
+      if (!preview?.hidden && (lastTrigger === button || openedExplicitly)) return;
+      showProjectPreview(button);
     });
-    button.addEventListener('pointerleave', () => { if (finePointer.matches && !pinned) previewTimer = setTimeout(() => closeProjectPreview(), 140); });
+    button.addEventListener('pointerleave', () => {
+      if (!preview?.hidden && !openedExplicitly && lastTrigger === button) {
+        closeTimer = setTimeout(closeProjectPreview, 500);
+      }
+    });
+    button.addEventListener('click', event => {
+      if (event.detail === 0 || event.pointerType === 'touch' || !finePointer.matches) {
+        if (!preview?.hidden && openedExplicitly && lastTrigger === button) closeProjectPreview();
+        else showProjectPreview(button, true);
+      }
+    });
   });
-  preview?.addEventListener('pointerenter', () => clearTimeout(previewTimer));
-  preview?.addEventListener('pointerleave', () => { if (finePointer.matches && !pinned) previewTimer = setTimeout(() => closeProjectPreview(), 140); });
-  preview?.querySelector('.word-preview-close').addEventListener('click', () => closeProjectPreview(true));
+  preview?.addEventListener('pointerenter', () => clearTimeout(closeTimer));
+  preview?.addEventListener('pointerleave', event => {
+    if (event.pointerType === 'mouse' && !openedExplicitly && event.relatedTarget !== lastTrigger) {
+      closeProjectPreview();
+    }
+  });
   document.addEventListener('click', event => {
-    if (!preview?.hidden && !preview?.contains(event.target) && !event.target.closest('.hero-word')) closeProjectPreview();
+    if (!preview?.contains(event.target) && !event.target.closest('.hero-word')) closeProjectPreview();
   });
-  document.addEventListener('focusin', event => {
-    if (!pinned && !preview?.hidden && !preview?.contains(event.target) && !event.target.closest('.hero-word')) closeProjectPreview();
-  });
+  window.addEventListener('scroll', () => closeProjectPreview(), { passive: true });
   document.addEventListener('keydown', event => {
     if (playing && event.key === 'Escape') { event.preventDefault(); skipScene(true); }
     else if (playing && event.key === 'Tab') {
