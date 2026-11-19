@@ -59,7 +59,7 @@ main img:not(.brand-mark), .image-viewport img {
 
 .signature-symbol {
   display: block;
-  flex: 0 0 40px;
+  flex: 0 0 64px;
 }
 
 .signature:hover .signature-symbol {
@@ -110,10 +110,6 @@ main img:not(.brand-mark), .image-viewport img {
   border-radius: 16px;
 }
 
-.home .signature-symbol {
-  flex-basis: 64px;
-}
-
 .signature-text {
   display: grid;
   gap: 4px;
@@ -121,12 +117,12 @@ main img:not(.brand-mark), .image-viewport img {
 
 .signature-role {
   color: var(--clay);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
 }
 
 @media (max-width: 700px) {
-  .home .signature-symbol {
+  .header .signature-symbol {
     flex-basis: 48px;
   }
 }
@@ -185,7 +181,7 @@ main img:not(.brand-mark), .image-viewport img {
   }
 
   .project-note {
-    font-size: 13px;
+    font-size: 14px;
   }
 }
 
@@ -371,28 +367,8 @@ main img:not(.brand-mark), .image-viewport img {
   }
 }
 
-.case-list .project-grid .project .project-stage {
-  display: block;
-  width: 100%;
-  height: clamp(148px, 22svh, 220px);
-  min-height: 0;
-  aspect-ratio: auto;
-  border-radius: 20px;
-}
 
-.case-list .project-grid .project-image {
-  position: static;
-  width: 100%;
-  margin: 0;
-  transform: none;
-  max-height: none;
-}
 
-.case-list .project-grid .project-image img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
 
 .case-list .school-mobile-peek {
   display: none;
@@ -479,24 +455,6 @@ body > .word-preview .word-preview-link > img {
   height: clamp(100px, 32dvh, 210px);
 }
 
-.case-list .project-grid > .marketing > .project-link {
-  background: var(--ink);
-  color: #fff;
-}
-
-.case-list .project-grid > .auchan > .project-link {
-  background: var(--clay);
-}
-
-.case-list .project-grid > .university > .project-link {
-  background: var(--olive-dark);
-  color: #fff;
-}
-
-.case-list .project-grid > .school > .project-link {
-  background: var(--sand);
-}
-
 .case-list .project-grid .project-number,
 .case-list .project-grid .project-role {
   color: inherit;
@@ -506,37 +464,29 @@ body > .word-preview .word-preview-link > img {
   border-color: currentColor;
 }
 
-.case-list .project-grid .project .project-stage {
-  display: grid;
-  place-items: center;
-  height: auto;
-  aspect-ratio: 1.4;
-  background: transparent;
-}
 
 .case-list .project-grid .project-image {
+  position: static;
+  width: 100%;
+  margin: 0;
+  transform: none;
+  max-height: none;
   display: grid;
   place-items: center;
-  width: 100%;
   height: 100%;
   min-height: 0;
   box-shadow: none;
-  transform: none;
 }
 
 .case-list .project-grid .project-image img {
-  position: static;
+  display: block;
   width: 100%;
   height: 100%;
+  position: static;
   min-height: 0;
   object-fit: contain;
   box-shadow: none;
   border-radius: 0;
-}
-
-.case-list .project-grid .project.university .project-image img {
-  object-fit: cover;
-  object-position: center top;
 }
 
 .case-list .project-grid .project-open {
@@ -548,20 +498,7 @@ body > .word-preview .word-preview-link > img {
   color: var(--ink);
 }
 
-.case-list .project-grid .project .project-stage {
-  position: relative;
-  border-radius: 0;
-}
 
-.case-list .project-grid .project .project-image {
-  position: absolute;
-  inset: 8px 0;
-  width: auto;
-  height: auto;
-  margin: 0;
-  border-radius: 0;
-  transform: none;
-}
 
 @media (prefers-reduced-motion: no-preference) {
   .case-list .project-grid .project-link:focus-visible .project-image {
@@ -595,7 +532,7 @@ body > .word-preview .word-preview-link > img {
 }
 
 .catalog-header h1 {
-  margin-block-start: 24px;
+  margin-block: 24px 8px;
 }
 
 .catalog-header p {
@@ -613,6 +550,20 @@ body > .word-preview .word-preview-link > img {
 
 .projects-page .case-list {
   padding-bottom: 64px;
+}
+
+.projects-page .case-list .project-grid {
+  gap: 24px;
+}
+
+.projects-page .case-list .project-grid > .project {
+  margin: 0 !important;
+}
+
+.merch-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 24px;
 }
 
 .case-breadcrumb {
@@ -645,9 +596,6 @@ body > .word-preview .word-preview-link > img {
   overflow-wrap: normal;
 }
 
-.analytics-story-title span {
-  display: block;
-}
 
 .analytics-preview img {
   width: auto;
@@ -668,9 +616,6 @@ body > .word-preview .word-preview-link > img {
 }
 
 /* Mobile layout shared by the home page, catalog and case studies. */
-.signature-mobile {
-  display: none;
-}
 
 @media (max-width: 768px) {
   :root {
@@ -704,13 +649,7 @@ body > .word-preview .word-preview-link > img {
     flex-basis: 48px;
   }
 
-  .header .signature-legacy {
-    display: none;
-  }
 
-  .header .signature-mobile {
-    display: grid;
-  }
 
   .header .signature-role {
     font-size: 14px;
@@ -856,6 +795,10 @@ body > .word-preview .word-preview-link > img {
     padding-top: 0;
   }
 
+  .projects-page .case-list .project-grid {
+    gap: 16px;
+  }
+
   .case-list .project-grid {
     grid-template-columns: minmax(0, 1fr);
     gap: 24px;
@@ -883,9 +826,9 @@ body > .word-preview .word-preview-link > img {
     line-height: 1.4;
   }
 
-  .case-list .project-grid .project-image img,
+  .case-list .project-grid .project .project-image img,
   main :is(.case-figure, .metric-scene) .image-button,
-  main :is(.case-figure, .metric-scene) .image-button img {
+  main :is(.case-figure, .metric-scene) img {
     border-radius: 16px;
   }
 
@@ -1086,4 +1029,363 @@ body > .word-preview .word-preview-link > img {
   .case-story .case-note {
     font-size: 14px;
   }
+}
+
+
+/* Keep words whole and separate case sections from their supporting media. */
+main :is(h1, h2, h3, h4, p, li, figcaption, .hero-word, .brand-word) {
+  word-break: normal;
+  hyphens: none;
+  overflow-wrap: normal;
+}
+
+.case-list .project-grid .project-title h2,
+.portrait-hero .hero-word,
+.analytics-case .case-story .analytics-story-title {
+  overflow-wrap: normal;
+}
+
+.case-header + section > .case-story {
+  padding-top: 64px;
+  padding-bottom: 0;
+}
+
+.case-header + section > .case-story h2 {
+  max-width: none;
+  overflow-wrap: normal;
+}
+
+.case-story p:last-child {
+  margin-bottom: 0;
+}
+
+.case-header + section > .case-story + .case-figure {
+  margin-block: 24px 0;
+}
+
+.case-header + section > .case-figure + .case-story {
+  margin-top: 0;
+}
+
+.case-header + section > .case-story:last-child {
+  padding-bottom: 32px;
+}
+
+@media (min-width: 769px) {
+  .case-header + section > .case-story {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    column-gap: clamp(32px, 4vw, 64px);
+  }
+}
+
+@media (max-width: 768px) {
+  .case-header + section > .case-story {
+    padding-top: 40px;
+  }
+
+  .case-header + section > .case-story + .case-figure {
+    margin-top: 16px;
+  }
+
+  .case-header + section > .case-story:last-child {
+    padding-bottom: 24px;
+  }
+}
+
+@media (max-width: 375px) {
+  .case-header h1.marketing-title {
+    font-size: 22px;
+  }
+
+  .case-list .project-grid .project-title h2.marketing-title,
+  .next-case h2.marketing-title {
+    font-size: 18px;
+  }
+}
+
+.next-case > a > span {
+  flex-shrink: 0;
+}
+
+.case-list .project-grid > .project {
+  margin: 0 !important;
+}
+
+.case-list .project-grid .project .project-stage {
+  display: grid;
+  width: min(100%, 650px);
+  height: auto;
+  min-height: 0;
+  aspect-ratio: 650 / 288;
+  border-radius: 16px;
+  place-items: center;
+  background: transparent;
+  position: relative;
+}
+
+.case-list .project-grid .project .project-image {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  margin: 0;
+  border-radius: 16px;
+  transform: none;
+}
+
+.hero-secondary-actions .resume-link {
+  font-size: 14px;
+}
+
+.case-list .project-grid .project .project-image img {
+  border-radius: 16px;
+  object-fit: cover;
+  object-position: center var(--preview-focus, 50%);
+}
+
+.case-list .project.auchan { --preview-focus: 36%; }
+.case-list .project.university { --preview-focus: 18%; }
+.case-list .project.talent { --preview-focus: 62%; }
+.case-list .project.ai { --preview-focus: 45%; }
+.case-list .project.marketing { --preview-focus: 0%; }
+.case-list .project.school { --preview-focus: 43%; }
+.case-list .project.event { --preview-focus: 51%; }
+.case-list .project.merch { --preview-focus: 60%; }
+
+.case-list .project.award { --preview-focus: 72%; }
+
+.case-figure > img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.header .signature-symbol {
+  flex: 0 0 auto;
+}
+
+.header .signature-symbol .brand-mark {
+  width: auto;
+  max-width: none;
+  height: 40px;
+}
+
+.case-list .project-grid .project.school .project-image img {
+  width: calc(100% + 16px);
+  max-width: none;
+  justify-self: start;
+  object-position: left var(--preview-focus, 43%);
+}
+
+.school-path {
+  border-radius: var(--corner-radius);
+  overflow: hidden;
+}
+
+.school-responsive.school-mobile-section {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 24px;
+}
+
+.school-mobile-section > div {
+  width: 100%;
+}
+
+.school-mobile-section p {
+  max-width: 720px;
+}
+
+.school-mobile-section .mobile-figure {
+  justify-self: start;
+  margin: 0;
+}
+
+.event-media-figure .image-button {
+  max-height: none;
+}
+
+.event-media-figure .image-button img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+}
+
+.participants-preview {
+  position: relative;
+}
+
+.participants-preview > img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.participants-cursor {
+  position: absolute;
+  left: 44.5%;
+  top: 42%;
+  width: clamp(20px, 2.4vw, 36px);
+  height: auto;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 3px #0004);
+}
+
+.auchan-case .case-story + .auchan-detail-grid {
+  margin-top: 24px;
+}
+
+.contact-panel {
+  border-radius: var(--corner-radius);
+}
+
+.contact-kicker {
+  color: var(--terracotta);
+  font: 500 24px/1.2 Bounded, sans-serif;
+}
+
+.hero-secondary-actions :is(.resume-link, .intro-replay) {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hero-secondary-actions :is(.resume-link, .intro-replay) .site-arrow {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hero-secondary-actions .intro-replay > span {
+  display: inline-flex;
+  align-items: center;
+}
+
+.about-profile {
+  display: grid;
+  gap: 32px;
+  align-self: start;
+  min-width: 0;
+}
+
+.certificates h3 {
+  margin-bottom: 16px;
+}
+
+.certificate-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px 16px;
+}
+
+.certificate-card {
+  min-width: 0;
+}
+
+.certificate-card .image-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 8px;
+  height: 176px;
+  background: var(--sand);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.certificate-card .image-button img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 0;
+}
+
+.certificate-card figcaption {
+  display: grid;
+  gap: 4px;
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.certificate-card figcaption span {
+  color: var(--muted);
+}
+
+.certificate-card figcaption strong {
+  font-weight: 500;
+}
+
+main :is(p, li, figcaption) {
+  text-wrap: pretty;
+}
+
+.case-story :is(h2, h3),
+.about-intro h3,
+.certificates h3 {
+  text-wrap: balance;
+}
+
+.next-case h2 {
+  min-width: 0;
+}
+
+@media (max-width: 375px) {
+  .case-list .project.award .project-title h2 {
+    font-size: 20px;
+  }
+
+  .certificate-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .certificate-card .image-button {
+    height: 224px;
+  }
+}
+
+.original-art {
+  margin-top: 24px;
+}
+
+.original-art summary {
+  width: fit-content;
+  cursor: pointer;
+  color: var(--terracotta-dark);
+  padding-block: 8px;
+}
+
+.original-art-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 224px), 1fr));
+  gap: 24px;
+  margin-top: 16px;
+}
+
+.original-art-grid .image-button {
+  width: 100%;
+  padding: 16px;
+  background: var(--sand);
+  border-radius: 16px;
+}
+
+.original-art-grid img {
+  display: block;
+  width: 100%;
+  height: 280px;
+  object-fit: contain;
+  border-radius: 0;
+}
+
+.original-art-grid figcaption {
+  margin-top: 8px;
+  font-size: 14px;
 }
